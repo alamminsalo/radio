@@ -6,4 +6,5 @@ authors = ["antti l"]
 [dependencies]
 gstreamer = "*"
 notify-rust = "*"
+chrono = "*"
 
