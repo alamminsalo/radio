@@ -1,0 +1,9 @@
+[package]
+name = "rsradio"
+version = "0.1.0"
+authors = ["antti l"]
+
+[dependencies]
+gstreamer = "*"
+notify-rust = "*"
+
