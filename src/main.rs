@@ -10,10 +10,11 @@ fn current_timestamp() -> String {
 }
 
 fn titleCallback(title: &str) {
-    println!("{} {}", current_timestamp(), title); 
+    println!("{} {}\n", current_timestamp(), title); 
     notify_rust::Notification::new()
         .summary("Now playing")
         .body(title)
+        .icon("waves.gif")
         .show().unwrap();
 }
 
@@ -23,6 +24,10 @@ fn main() {
     if args.len() < 2 {
         panic!("No argument");
     }
+
+    //Clear term screen
+    let output = std::process::Command::new("clear").output().unwrap();
+    print!("{}", String::from_utf8_lossy(&output.stdout));
 
     audiostream::open(&args[1], &titleCallback);
 }
