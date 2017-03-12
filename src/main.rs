@@ -8,29 +8,33 @@ use rand::{thread_rng, Rng};
 
 mod audiostream;
 
-fn random_file(dir: &str) -> String {
+fn random_file(dir: &str) -> Option<String> {
     let paths = fs::read_dir(dir).unwrap();
     let mut files: Vec<String> = vec![];
     for path in paths {
         files.push(String::from(path.unwrap().path().to_str().unwrap()));
     }
 
+    if files.len() <= 0 {
+        return None;
+    }
+
     let idx = thread_rng().gen_range(0, files.len());
 
-    files.get(idx).unwrap().clone()
+    Some(files.get(idx).unwrap().clone())
 }
 
 fn current_timestamp() -> String {
     chrono::Local::now().format("[%H:%M:%S]").to_string()
 }
 
-fn titleCallback(title: &str, icon: Option<String>) {
+fn notify(title: &str, icon: Option<String>) {
     println!("{} {}\n", current_timestamp(), title); 
-    notify_rust::Notification::new()
+    let notify = notify_rust::Notification::new()
         .summary("Now playing")
         .body(title)
         .icon(&icon.unwrap_or(String::new()))
-        .show().unwrap();
+        .show();
 }
 
 fn main() {
@@ -74,10 +78,10 @@ fn main() {
             iconOpt = Some(icon.iter().next().unwrap().clone());
         }
         else if icondir != None {
-            iconOpt = Some(random_file(&icondir.iter().next().unwrap()));
+            iconOpt = random_file(&icondir.iter().next().unwrap());
         }
 
-        titleCallback(title, iconOpt);
+        notify(title, iconOpt);
     };
 
     //Clear term screen
