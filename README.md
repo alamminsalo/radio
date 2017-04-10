@@ -1,9 +1,9 @@
-#rsradio
+# radio
 
-##Features
+## Features
 * Plays given audio stream
-* Sends dbus notification on title change
+* Sends dbus notification when song changes, with optional image
 
-##Usage
-`rsradio <stream-uri>`
+## Usage
+`radio [--icondir <icondir>, --icon <icon>] <stream-uri>`
 
