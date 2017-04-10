@@ -6,14 +6,10 @@ use std::ffi::{CString, CStr};
 use std::os::raw::c_char;
 
 fn parseString(data: *const c_char) -> String {
-    let mut string = String::new();
-
     unsafe {
         let buf = CStr::from_ptr(data).to_bytes();
-        string = String::from(str::from_utf8(buf).unwrap());
+        String::from(str::from_utf8(buf).unwrap())
     }
-
-    string
 }
 
 fn parseTagsGetTitleIfPresent(tags: *mut gst::ffi::GstTagList) -> String {
